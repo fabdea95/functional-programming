@@ -38,3 +38,10 @@ let searchp results inizio n (Graph s)=
 										     else search_aux results rest
                                                    else search_aux results ((estendi cammino) @ rest)
                               in search_aux results [[inizio]];;
+			
+
+(*MAIN*)
+let rec check inizio n (Graph g) =
+	if (g inizio) = [] then false
+	else if (List.length (searchp [] inizio n (Graph g))) >= (n-1) then true
+		else check (succ inizio) n (Graph g);;
