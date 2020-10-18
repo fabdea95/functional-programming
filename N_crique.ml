@@ -40,8 +40,9 @@ let searchp results inizio n (Graph s)=
                               in search_aux results [[inizio]];;
 			
 
-(*MAIN*)
+
+(*CHECK IF N-CRIQUE*)
 let rec check inizio n (Graph g) =
-	if (g inizio) = [] then false
-	else if (List.length (searchp [] inizio n (Graph g))) >= (n-1) then true
+	if (g inizio) = [] then raise NotFound 
+	else let cammini = (searchp [] inizio n (Graph g)) in if (List.length cammini) >= (n-1) then cammini
 		else check (succ inizio) n (Graph g);;
