@@ -1,5 +1,5 @@
 (*RICERCA CON PROFONDITÀ LIMITATA A N CON RESULTS*)
-let searchp results inizio n (Graph s)=
+let searchp_base results inizio n (Graph s)=
                 let estendi cammino = (*if (List.length cammino) = n then stampalista cammino;  *)
 				List.map (function x -> x::cammino)
                                 (List.filter (function x -> not (List.mem x cammino)) (s (List.hd cammino)))
@@ -26,7 +26,7 @@ CHIAMA SEARCH AUX:
 
 
 
-(*N-CRIQUE PATH FINDINGS*)
+(*N-CRIQUE PATHS FINDER*)
 let searchp results inizio n (Graph s)=
                 let estendi cammino = (*if (List.length cammino) = n then*) stampalista [inizio];  
 				List.map (function x -> x::cammino)
@@ -40,9 +40,14 @@ let searchp results inizio n (Graph s)=
                               in search_aux results [[inizio]];;
 			
 
+exception NotFound;;
 
 (*CHECK IF N-CRIQUE*)
 let rec check inizio n (Graph g) =
-	if (g inizio) = [] then raise NotFound 
-	else let cammini = (searchp [] inizio n (Graph g)) in if (List.length cammini) >= (n-1) then cammini
+	if (g inizio) = [] then (print_endline("nessuna cricca"); raise NotFound )
+	else let cammini = (searchp [] inizio n (Graph g)) in if (List.length cammini) >= (n-1) then (List.hd cammini)
 		else check (succ inizio) n (Graph g);;
+
+(*START PROGRAM*)
+let cricca n (Graph g) =
+   check 1 n (Graph g);;
