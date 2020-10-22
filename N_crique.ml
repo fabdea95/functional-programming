@@ -36,8 +36,10 @@ let rec check inizio n (Graph g) =
 	else let cammini = (searchp [] [] inizio n (Graph g)) in if (List.length cammini) > 0 then (cammini)
 		else check (succ inizio) n (Graph g);;
 
+exception InputNotCorrect;;
 let cricca n (Graph g) =
-   check 1 n (Graph g);;
+   if n < 2 then (print_endline("N non puo essere minore di 2"); raise InputNotCorrect)
+   else check 1 n (Graph g);;
 
 
 (*OLD VERSION*
