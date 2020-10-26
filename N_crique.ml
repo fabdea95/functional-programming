@@ -9,6 +9,7 @@ let trova_i x lst = func x lst 0
 let sostituisci l pos a  = List.mapi (fun i x -> if i = pos then a else x) l;;
 
 (*funzione che tramite ricerca in profondità controlla se esiste una cricca di grandezza n partendo dal vertice "inizio" *)
+
 let dfs_cricca risultati cont inizio n (Graph s)=
     let estendi cammino = 
 	List.map (function x -> x::cammino)
