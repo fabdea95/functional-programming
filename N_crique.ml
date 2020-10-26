@@ -10,14 +10,14 @@ let sostituisci l pos a  = List.mapi (fun i x -> if i = pos then a else x) l;;
 
 (*funzione che tramite ricerca in profondità controlla se esiste una cricca di grandezza n partendo dal vertice "inizio" *)
 (*risultati: lista combinazioni di vertici candidate a essere una cricca, cont: lista del numero di occorrenze di ciascun elemento di "risultati" *)
-let dfs_cricca risultati cont inizio n (Graph s)=
+let dfs_cricca risultati cont inizio n (Graph g)=
     let estendi cammino = 
 	List.map (function x -> x::cammino)
-        (List.filter (function x -> not (List.mem x cammino)) (s (List.hd cammino)))
+        (List.filter (function x -> not (List.mem x cammino)) (g (List.hd cammino)))
              in let rec search_aux risultati cont lista  = match lista with
                  [] -> []
                  | cammino::rest -> if (List.length cammino) = n then 
-		 	 		if (List.mem inizio (s (List.hd cammino))) then 
+		 	 		if (List.mem inizio (g (List.hd cammino))) then 
 			    			if n = 2 then []@[cammino]
 						else let cammino_sort = (List.sort compare cammino) in 
 	    			     			let indice = trova_i cammino_sort risultati in 
@@ -33,15 +33,15 @@ let dfs_cricca risultati cont inizio n (Graph s)=
 (*COMMENTO DFS_CRICCA:
 START:
 CHIAMA SEARCH AUX:
-   controlla  "inizio":
+   controlla  "[[inizio]]":
 	se vuoto -> risultati
 	altrimenti controlla: SE cammino è una lista lunga N ALLORA controlla 
 					SE l'ultimo nodo è collegato al nodo iniziale del cammino, ordina la lista dei nodi del cammino (come "cammino_sort"), poi:
-						SE la combinazione dei nodi del cammino è gia presente nella lista risultati allora 
+						SE la combinazione dei nodi del cammino (cammino_sort) è gia presente nella lista risultati allora 
 							incrementa il valore di cont corrispondente e se diventa uguale a n-1, ritorna cammino_sort
 						ALTRIMENTI aggiungi cammino_sort risultati, e aggiungi "1" come nuovo elemento in cont ed esegue search_aux sulla coda
 					ALTRIMENTI non lo aggiunge
-        		      ALTRIMENTI richiama search_aux passandogli results e il risultato della concatenazione tra ESTENDI cammino e la coda della lista "inizio"
+        		      ALTRIMENTI richiama search_aux passandogli results e il risultato della concatenazione tra ESTENDI cammino e la coda di "lista"
 
 	FUNZIONE ESTENDI:
 	riceve cammino
