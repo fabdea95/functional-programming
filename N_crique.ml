@@ -1,27 +1,14 @@
-(*DFS CON PROFONDITÀ LIMITATA A N CON RISULTATI*)
-let searchp_base risultati inizio n (Graph s)=
-                let estendi cammino = (*if (List.length cammino) = n then stampalista cammino;  *)
-				List.map (function x -> x::cammino)
-                                (List.filter (function x -> not (List.mem x cammino)) (s (List.hd cammino)))
-                        in let rec search_aux risultati lista  = match lista with
-                                 [] -> risultati
-                                | cammino::rest -> if (List.length cammino) = n then search_aux (risultati @ [cammino]) rest
-                                                   else search_aux risultati ((estendi cammino) @ rest)
-                              in search_aux risultati [[inizio]];;
-
-
 (*TROVA ELEMENTO E RESTITUISCE INDICE*)
 let rec func x lst c = match lst with
     | [] -> -1
     | hd::tl -> if (hd=x) then c else func x tl (c+1)
-
-let find x lst = func x lst 0
+let trova_i x lst = func x lst 0
 
 
 (*sostituisce elemento di indice pos con a*) 
-let replace l pos a  = List.mapi (fun i x -> if i = pos then a else x) l;;
+let sostituisci l pos a  = List.mapi (fun i x -> if i = pos then a else x) l;;
 
-(*N-CRIQUE PATHS FINDER*)
+(*funzione che tramite ricerca in profondità controlla se esiste una cricca di grandezza n partendo dal vertice "inizio" *)
 let dfs_cricca risultati cont inizio n (Graph s)=
     let estendi cammino = 
 	List.map (function x -> x::cammino)
@@ -32,22 +19,24 @@ let dfs_cricca risultati cont inizio n (Graph s)=
 		 	if (List.mem inizio (s (List.hd cammino))) then 
 			    if n = 2 then []@[cammino]
 				else let cammino_sort = (List.sort compare cammino) in 
-	    			     let indice = find cammino_sort risultati in 
+	    			     let indice = trova_i cammino_sort risultati in 
 					if indice > -1 then 
 	 				    let nuovo_cont = ((List.nth cont indice) + 1) in if nuovo_cont = n-1 then ([] @ [cammino_sort])
-					   						     else search_aux risultati (replace cont indice nuovo_cont) rest
+					   						     else search_aux risultati (sostituisci cont indice nuovo_cont) rest
 					else search_aux (risultati @ [cammino_sort]) (cont @ [1]) rest
 		             else search_aux risultati cont rest
                        else search_aux risultati cont ((estendi cammino) @ rest)
               in search_aux risultati cont [[inizio]];;
 	      
 exception NotFound;;
+(* funzione che richiama ogni volta dfs_cricca per un nuovo vertice di inizio fino a quando non trova una cricca*)
 let rec check inizio n (Graph g) =
 	if (g inizio) = [] then (print_endline("nessuna cricca della dimensione inserita"); raise NotFound )
 	else let cammini = (dfs_cricca [] [] inizio n (Graph g)) in if (List.length cammini) > 0 then (List.hd cammini)
 		else check (succ inizio) n (Graph g);;
 
 exception InputNotCorrect;;
+(*funzione main*)
 let cricca n (Graph g) =
    if n < 2 then (print_endline("N non puo essere minore di 2"); raise InputNotCorrect)
    else check 1 n (Graph g);;
@@ -93,4 +82,17 @@ let rec check inizio n (Graph g) =
 
 let cricca n (Graph g) =
    check 1 n (Graph g);;
+*)
+
+(*
+(*DFS CON PROFONDITÀ LIMITATA A N CON RISULTATI*)
+let searchp_base risultati inizio n (Graph s)=
+                let estendi cammino = (*if (List.length cammino) = n then stampalista cammino;  *)
+				List.map (function x -> x::cammino)
+                                (List.filter (function x -> not (List.mem x cammino)) (s (List.hd cammino)))
+                        in let rec search_aux risultati lista  = match lista with
+                                 [] -> risultati
+                                | cammino::rest -> if (List.length cammino) = n then search_aux (risultati @ [cammino]) rest
+                                                   else search_aux risultati ((estendi cammino) @ rest)
+                              in search_aux risultati [[inizio]];;
 *)
