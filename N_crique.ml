@@ -35,14 +35,14 @@ let dfs_cricca risultati cont inizio n (Graph g)=
                  [] -> []
                  | cammino::rest -> if (List.length cammino) = n then 
 		 	 		if (List.mem inizio (g (List.hd cammino))) then 
-			    			if n = 2 then []@[cammino]
-						else let cammino_sort = (List.sort compare cammino) in 
-	    			     			let indice = trova_i cammino_sort risultati in 
-							if indice > -1 then 
-	 				    			let nuovo_cont = ((List.nth cont indice) + 1) in 
-									if nuovo_cont = n-1 then ([] @ [cammino_sort])
+						let cammino_sort = (List.sort compare cammino) in 
+							if n = 2 then (*[]@*)[cammino_sort]
+	    			     			else let indice = trova_i cammino_sort risultati in 
+								if indice > -1 then 
+	 				    			    let nuovo_cont = ((List.nth cont indice) + 1) in 
+									if nuovo_cont = n-1 then ((*[] @ *)[cammino_sort])
 					   	 			else search_aux risultati (sostituisci cont indice nuovo_cont) rest
-							else search_aux (risultati @ [cammino_sort]) (cont @ [1]) rest
+								else search_aux (risultati @ [cammino_sort]) (cont @ [1]) rest
 		            		 else search_aux risultati cont rest
                        		     else search_aux risultati cont ((estendi cammino) @ rest)
      in search_aux risultati cont [[inizio]]
