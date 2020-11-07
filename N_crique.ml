@@ -51,7 +51,7 @@ let dfs_cricca risultati cont inizio n (Graph g)=
 START:
 CHIAMA SEARCH AUX:
    controlla  "[[inizio]]":
-	se vuoto -> risultati
+	se vuoto -> []
 	altrimenti controlla: SE cammino è una lista lunga N ALLORA controlla 
 					SE l'ultimo nodo è collegato al nodo iniziale del cammino, ordina la lista dei nodi del cammino (come "cammino_sort"), poi:
 						SE la combinazione dei nodi del cammino (cammino_sort) è gia presente nella lista risultati allora 
