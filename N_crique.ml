@@ -98,7 +98,7 @@ let searchp results inizio n (Graph s)=
 START:
 CHIAMA SEARCH AUX:
    controlla  "inizio":
-	se vuoto -> results
+	se vuoto -> []
 	altrimenti controlla: SE inizio è una lista lunga N ALLORA controlla SE l'ultimo nodo è collegato al nodo iniziale del cammino:
 											 se SÌ, aggiunge il cammino ai risultati ed esegue search_aux sulla coda
 											 ALTRIMENTI non lo aggiunge
